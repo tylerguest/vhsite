@@ -4,8 +4,8 @@ import Image from "next/image";
 
 const LandingTopContainer = styled.div`
   /* Add your styles here */
-  background-color: white;
-  border: 2px solid black;
+  background-color: black;
+  border: 2px solid lime;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -27,7 +27,7 @@ const LandingTop = () => {
     <LandingTopContainer>
       <ImageWrapper>
       <Image
-          src="/VH-Logo-2023-PNG.png" // Adjust path based on your project structure
+          src="/VH-Logo-2023-PNG-white.png" // Adjust path based on your project structure
           alt="Header Image"
           layout="fill" // Use layout="fill" to fill the parent container
           objectFit="contain" // Adjust objectFit based on your layout needs

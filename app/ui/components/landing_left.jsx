@@ -2,21 +2,42 @@ import React from "react";
 import styled from "styled-components";
 
 const LandingLeftContainer = styled.div`
-  /* Add your styles here */
-  background-color: none;
-  border: 2px solid black;
+  background-color: black;
+  border: 2px solid lime;
+  color: white;
   display: flex;
-  justify-content: center;
+  flex-direction: column;
   align-items: center;
   width: 100%;
   height: 100%;
+`;
+
+const SubContainer = styled.div`
+  background-color: none;
+  border: 2px solid white;
+  color: yellow;
+  width: 100%;
+  height: 100%;
+  //margin-bottom: 10px;
+  //padding: 10px;
 `;
 
 
 const LandingLeft = () => {
   return (
     <LandingLeftContainer>
-      <h1>Playlist</h1>
+      <SubContainer>
+        <h1>Video 1</h1>
+      </SubContainer>
+      <SubContainer>
+        <h1>Video 2</h1>
+      </SubContainer>
+      <SubContainer>
+        <h1>Video 3</h1>
+      </SubContainer>
+      <SubContainer>
+        <h1>Video 4</h1>
+      </SubContainer>
     </LandingLeftContainer>
   );
 }
