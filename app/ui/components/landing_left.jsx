@@ -10,6 +10,8 @@ const LandingLeftContainer = styled.div`
   align-items: center;
   width: 100%;
   height: 100%;
+  overflow-y: auto; /* Enable vertical scrolling */
+  white-space: nowrap;
 `;
 
 const SubContainer = styled.div`
@@ -17,26 +19,38 @@ const SubContainer = styled.div`
   border: 2px solid white;
   color: yellow;
   width: 100%;
-  height: 100%;
-  //margin-bottom: 10px;
-  //padding: 10px;
+  height: 200px; /* Adjust height as needed */
+  flex: 0 0 auto;
+  justify-content: center;
+  align-items: center;
 `;
-
 
 const LandingLeft = () => {
   return (
     <LandingLeftContainer>
       <SubContainer>
-        <h1>Empty 1</h1>
+        <h1>Video 1</h1>
       </SubContainer>
       <SubContainer>
-        <h1>Empty 2</h1>
+        <h1>Video 2</h1>
       </SubContainer>
       <SubContainer>
-        <h1>Empty 3</h1>
+        <h1>Video 3</h1>
       </SubContainer>
       <SubContainer>
-        <h1>Empty 4</h1>
+        <h1>Video 4</h1>
+      </SubContainer>
+      <SubContainer>
+        <h1>Video 5</h1>
+      </SubContainer>
+      <SubContainer>
+        <h1>Video 6</h1>
+      </SubContainer>
+      <SubContainer>
+        <h1>Video 7</h1>
+      </SubContainer>
+      <SubContainer>
+        <h1>Video 8</h1>
       </SubContainer>
     </LandingLeftContainer>
   );

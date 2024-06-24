@@ -14,7 +14,7 @@ const LandingRightContainer = styled.div`
 
 const UpperContainer = styled.div`
   display: grid;
-  grid-template-rows: 28vh 70px; /* Two rows: one for items and one for the button */
+  grid-template-rows: 27vh 70px; /* Two rows: one for items and one for the button */
   padding: 10px;
 `;
 
@@ -22,7 +22,8 @@ const ItemsContainer = styled.div`
   display: grid;
   grid-template-columns: repeat(4, 1fr); /* 4 columns for items */
   grid-template-rows: repeat(3, 1fr); /* 3 rows for items */
-  gap: 35px; /* Same spacing between rows and columns */
+  column-gap: 29px; /* Same spacing between rows and columns */
+  row-gap: 15px; /* Spacing between rows */
   padding: 10px;
   width: 100%;
   box-sizing: border-box; /* Ensure padding/border included in size */
