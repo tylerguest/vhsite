@@ -30,28 +30,28 @@ const LandingBottom = () => {
   return (
     <LandingBottomContainer>
       <SubContainer>
-        <h1>Merch 1</h1>
+        <h1>Video 1</h1>
       </SubContainer>
       <SubContainer>
-        <h1>Merch 2</h1>
+        <h1>Video 2</h1>
       </SubContainer>
       <SubContainer>
-        <h1>Merch 3</h1>
+        <h1>Video 3</h1>
       </SubContainer>
       <SubContainer>
-        <h1>Merch 4</h1>
+        <h1>Video 4</h1>
       </SubContainer>
       <SubContainer>
-        <h1>Merch 5</h1>
+        <h1>Video 5</h1>
       </SubContainer>
       <SubContainer>
-        <h1>Merch 6</h1>
+        <h1>Video 6</h1>
       </SubContainer>
       <SubContainer>
-        <h1>Merch 7</h1>
+        <h1>Video 7</h1>
       </SubContainer>
       <SubContainer>
-        <h1>Merch 8</h1>
+        <h1>Video 8</h1>
       </SubContainer>
     </LandingBottomContainer>
   );

@@ -27,16 +27,16 @@ const LandingLeft = () => {
   return (
     <LandingLeftContainer>
       <SubContainer>
-        <h1>Video 1</h1>
+        <h1>Empty 1</h1>
       </SubContainer>
       <SubContainer>
-        <h1>Video 2</h1>
+        <h1>Empty 2</h1>
       </SubContainer>
       <SubContainer>
-        <h1>Video 3</h1>
+        <h1>Empty 3</h1>
       </SubContainer>
       <SubContainer>
-        <h1>Video 4</h1>
+        <h1>Empty 4</h1>
       </SubContainer>
     </LandingLeftContainer>
   );
