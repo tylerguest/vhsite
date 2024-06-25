@@ -3,8 +3,6 @@ import styled from "styled-components";
 
 const LandingCenterContainer = styled.div`
   background-color: black;
-  border: 2px solid lime;
-  color: white;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -25,6 +23,9 @@ const YouTubeIframe = styled.iframe`
   left: 0;
   width: 100%;
   height: 100%;
+  border: none; /* Ensure there is no border */
+  outline: none; /* Ensure there is no outline */
+  box-shadow: none; /* Ensure there is no box-shadow */
 `;
 
 const LandingCenter = () => {
@@ -37,9 +38,9 @@ const LandingCenter = () => {
         <YouTubeIframe
           src={`https://www.youtube.com/embed/${videoId}`}
           title="YouTube video player"
-          frameborder="0"
+          frameBorder="0"
           allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-          allowfullscreen
+          allowFullScreen
         ></YouTubeIframe>
       </YouTubeWrapper>
     </LandingCenterContainer>

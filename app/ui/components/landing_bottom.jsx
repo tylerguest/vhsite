@@ -3,7 +3,8 @@ import styled from "styled-components";
 
 const LandingBottomContainer = styled.div`
   background-color: black;
-  border: 2px solid lime;
+  //border: 2px solid lime;
+  boreder-opacity: 0.5;
   color: white;
   display: flex;
   flex-direction: row;

@@ -5,7 +5,8 @@ import Image from "next/image";
 const LandingTopContainer = styled.div`
   /* Add your styles here */
   background-color: black;
-  border: 2px solid lime;
+  //border: 2px solid lime;
+  border-opacity: 0.5;
   display: flex;
   justify-content: center;
   align-items: center;
