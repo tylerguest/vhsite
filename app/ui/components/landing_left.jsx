@@ -48,14 +48,14 @@ const PlayButton = styled.div`
 
 const LandingLeft = () => {
   const videoIds = [
-    "dQw4w9WgXcQ",
-    "9bZkp7q19f0",
-    "3JZ_D3ELwOQ",
-    "fJ9rUzIMcZQ",
-    "tVj0ZTS4WF4",
-    "2Vv-BfVoq4g",
-    "kXYiU_JCYtU",
-    "YQHsXMglC9A"
+    "tebWaDWKQOk",
+    "W6Zfmp_5cK4",
+    "2olCbyqtWjI",
+    "UJkJTUKmaAM",
+    "_Psfyn4jkis",
+    "bAn-GIW045A",
+    "u8mFkFz284w",
+    "69tVVr6yGcs",
   ];
 
   return (

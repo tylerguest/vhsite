@@ -2,23 +2,26 @@ import React from "react";
 import styled from "styled-components";
 
 const LandingBottomContainer = styled.div`
+  background-image: url('/vhsitebanner.gif'); /* Path relative to the public folder */
+  background-size: cover;
   background-color: black;
-  //border: 2px solid lime;
-  boreder-opacity: 0.5;
+  background-repeat: no-repeat;
+  background-position: center;
   color: white;
   display: flex;
   flex-direction: row;
-  justify-content: flex-start; /* Align items to the start for scrolling */
+  justify-content: center;
   align-items: center;
   width: 100%;
   height: 100%;
-  overflow-x: auto; /* Enable horizontal scrolling */
-  white-space: nowrap; /* Prevent wrapping to new lines */
+  overflow-x: auto;
+  white-space: nowrap;
 `;
 
 const LandingBottom = () => {
   return (
     <LandingBottomContainer>
+      <h1></h1>
     </LandingBottomContainer>
   );
 }

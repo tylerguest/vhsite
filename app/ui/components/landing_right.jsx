@@ -16,6 +16,7 @@ const UpperContainer = styled.div`
   display: grid;
   grid-template-rows: auto auto; /* Add another row for the spanning box */
   padding: 10px;
+  padding-bottom: 20px;
   gap: 10px; /* Add some gap between rows */
 `;
 
@@ -34,7 +35,9 @@ const ItemsContainer = styled.div`
 
 const CheckoutBox = styled.div`
   grid-column: span; /* Span across all columns */
-  background-color: #FFD700; /* Gold color, adjust as needed */
+  background-image: url('/checkoutbutton.png'); /* Path relative to the public folder */
+  background-size: cover; /* Ensure the image covers the entire box */
+  background-position: center; /* Center the image */
   display: flex;
   justify-content: center;
   align-items: center;
@@ -42,7 +45,6 @@ const CheckoutBox = styled.div`
   width: 100%;
   color: black;
   font-size: 1.5em;
-  border: 2px solid white;
   box-sizing: border-box; /* Ensure padding/border included in size */
 `;
 
@@ -55,6 +57,9 @@ const LowerContainer = styled.div`
 `;
 
 const SubContainer = styled.div`
+  background-image: url('/merchmain.png'); /* Path relative to the public folder */
+  background-size: cover; /* Ensure the image covers the entire box */
+  background-position: center; /* Center the image */
   color: yellow;
   width: 100%; /* Full width of the parent */
   height: 70%; /* Adjust height as needed */
@@ -65,13 +70,9 @@ const SubContainer = styled.div`
 `;
 
 const SmallBox = styled.div`
-  background-color: none;
-  border: 2px solid white;
-  color: yellow;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  aspect-ratio: 1 / 1; /* Maintain square aspect ratio */
+  background-image: url('/itemcontainer.png'); /* Path relative to the public folder */
+  background-size: cover; /* Ensure the image covers the entire box */
+  background-position: center; /* Center the image */
   width: 50px; /* Ensure it fills the grid cell */
   height: 50px;
   box-sizing: border-box; /* Ensure padding/border included in size */
@@ -94,13 +95,11 @@ const LandingRight = () => {
       <UpperContainer>
         <ItemsContainer>
           {Array.from({ length: 12 }, (_, index) => (
-            <SmallBox key={index}>
-              <h1></h1>
-            </SmallBox>
+            <SmallBox key={index} />
           ))}
         </ItemsContainer>
         <CheckoutBox>
-          Checkout
+        
         </CheckoutBox>
       </UpperContainer>
       <LowerContainer>

@@ -30,13 +30,13 @@ const YouTubeIframe = styled.iframe`
 
 const LandingCenter = () => {
   // Replace 'videoId' with your YouTube video ID
-  const videoId = "69tVVr6yGcs?si=7C4CSIH3BJBK45av"; // Replace with your actual YouTube video ID
+  const videoId = "69tVVr6yGcs"; // Replace with your actual YouTube video ID
 
   return (
     <LandingCenterContainer>
       <YouTubeWrapper>
         <YouTubeIframe
-          src={`https://www.youtube.com/embed/${videoId}`}
+          src={`https://www.youtube.com/embed/${videoId}?autoplay=1`}
           title="YouTube video player"
           frameBorder="0"
           allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
