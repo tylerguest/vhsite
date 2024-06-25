@@ -32,8 +32,8 @@ const SubContainer = styled.div`
 `;
 
 const Thumbnail = styled.img`
-  width: 100%;
-  height: 100%;
+  width: 200%;
+  height: 200%;
   object-fit: cover;
   transition: opacity 0.3s ease; /* Smooth transition for opacity change */
 `;

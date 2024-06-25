@@ -34,7 +34,7 @@ const ItemsContainer = styled.div`
   box-sizing: border-box;
 `;
 
-const CheckoutBox = styled.div`
+const CheckoutButton = styled.button`
   grid-column: span;
   background-image: url('/checkoutbutton.png');
   background-size: cover;
@@ -47,6 +47,18 @@ const CheckoutBox = styled.div`
   color: black;
   font-size: 1.5em;
   box-sizing: border-box;
+  border: none;
+  cursor: pointer;
+  transition: opacity 0.3s ease;
+  opacity: ${(props) => (props.isClicked ? 0.3 : 1)};
+  
+  &:hover {
+    opacity: 0.7;
+  }
+
+  &:active {
+    opacity: 0.3;
+  }
 `;
 
 const LowerContainer = styled.div`
@@ -87,6 +99,7 @@ const SmallBox = styled.div`
 const LandingRight = () => {
   const [isPopupVisible, setIsPopupVisible] = useState(false);
   const [popupContent, setPopupContent] = useState(null);
+  const [isCheckoutClicked, setIsCheckoutClicked] = useState(false);
 
   const colors = [
     "#FF6347", // Tomato
@@ -103,10 +116,18 @@ const LandingRight = () => {
     setPopupContent(
       <div>
         <h2 style={{ color }}></h2>
-        <p>Details about the item with background color {color}.</p>
+        <img src={`/merchmain.png`} alt="Thumbnail" />
       </div>
     );
     setIsPopupVisible(true);
+  };
+
+  const handleCheckoutMouseDown = () => {
+    setIsCheckoutClicked(true);
+  };
+
+  const handleCheckoutMouseUp = () => {
+    setIsCheckoutClicked(false);
   };
 
   return (
@@ -117,7 +138,12 @@ const LandingRight = () => {
             <SmallBox key={index} />
           ))}
         </ItemsContainer>
-        <CheckoutBox></CheckoutBox>
+        <CheckoutButton
+          isClicked={isCheckoutClicked}
+          onMouseDown={handleCheckoutMouseDown}
+          onMouseUp={handleCheckoutMouseUp}
+        >
+        </CheckoutButton>
       </UpperContainer>
       <LowerContainer>
         {Array.from({ length: colors.length }, (_, index) => (
