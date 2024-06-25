@@ -1,9 +1,10 @@
-import React from "react";
+// LandingLeft.jsx
+import React, { useContext } from "react";
 import styled from "styled-components";
+import { VideoContext } from "./VideoContext";
 
 const LandingLeftContainer = styled.div`
   background-color: black;
-  //border: 2px solid lime;
   color: white;
   display: flex;
   flex-direction: column;
@@ -15,7 +16,6 @@ const LandingLeftContainer = styled.div`
 `;
 
 const SubContainer = styled.div`
-  //border: 2px solid white;
   color: yellow;
   width: 100%;
   height: 200px; /* Adjust height as needed */
@@ -24,12 +24,18 @@ const SubContainer = styled.div`
   justify-content: center;
   align-items: center;
   position: relative;
+  overflow: hidden; /* Ensure child elements don't overflow the container */
+
+  &:hover img {
+    opacity: 0.5; /* Darken opacity on hover */
+  }
 `;
 
 const Thumbnail = styled.img`
   width: 100%;
   height: 100%;
   object-fit: cover;
+  transition: opacity 0.3s ease; /* Smooth transition for opacity change */
 `;
 
 const PlayButton = styled.div`
@@ -37,16 +43,16 @@ const PlayButton = styled.div`
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
-  background-color: rgba(0, 0, 0, 0.6);
   border: none;
   color: white;
   font-size: 2em;
   padding: 10px 20px;
-  border-radius: 50%;
   cursor: pointer;
 `;
 
 const LandingLeft = () => {
+  const { setVideoId } = useContext(VideoContext); // Use the context
+
   const videoIds = [
     "tebWaDWKQOk",
     "W6Zfmp_5cK4",
@@ -63,7 +69,7 @@ const LandingLeft = () => {
       {videoIds.map((videoId, index) => (
         <SubContainer key={index}>
           <Thumbnail src={`https://img.youtube.com/vi/${videoId}/0.jpg`} alt={`YouTube Video ${index + 1}`} />
-          <PlayButton onClick={() => window.open(`https://www.youtube.com/watch?v=${videoId}`, '_blank')}>▶</PlayButton>
+          <PlayButton onClick={() => setVideoId(videoId)}>▶</PlayButton>
         </SubContainer>
       ))}
     </LandingLeftContainer>

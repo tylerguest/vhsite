@@ -6,6 +6,7 @@ import LandingLeft from "./ui/components/landing_left";
 import LandingCenter from "./ui/components/landing_center";
 import LandingRight from "./ui/components/landing_right";
 import LandingBottom from "./ui/components/landing_bottom";
+import { VideoProvider } from "./ui/components/VideoContext"; // Import the VideoProvider
 
 const Container = styled.div`
   width: 100%;
@@ -43,23 +44,25 @@ const Bottom = styled.div`
 export default function Home() {
   return (
     <main>
-      <Container>
-        <Top>
-          <LandingTop />
-        </Top>
-        <Left>
-          <LandingLeft />
-        </Left>
-        <Center>
-          <LandingCenter />
-        </Center>
-        <Right>
-          <LandingRight />
-        </Right>
-        <Bottom>
-          <LandingBottom />
-        </Bottom>
-      </Container>
+      <VideoProvider> {/* Wrap the content with VideoProvider */}
+        <Container>
+          <Top>
+            <LandingTop />
+          </Top>
+          <Left>
+            <LandingLeft />
+          </Left>
+          <Center>
+            <LandingCenter />
+          </Center>
+          <Right>
+            <LandingRight />
+          </Right>
+          <Bottom>
+            <LandingBottom />
+          </Bottom>
+        </Container>
+      </VideoProvider>
     </main>
   );
 }

@@ -1,5 +1,7 @@
-import React from "react";
+// LandingCenter.jsx
+import React, { useContext } from "react";
 import styled from "styled-components";
+import { VideoContext } from "./VideoContext";
 
 const LandingCenterContainer = styled.div`
   background-color: black;
@@ -29,8 +31,7 @@ const YouTubeIframe = styled.iframe`
 `;
 
 const LandingCenter = () => {
-  // Replace 'videoId' with your YouTube video ID
-  const videoId = "69tVVr6yGcs"; // Replace with your actual YouTube video ID
+  const { videoId } = useContext(VideoContext); // Use the context
 
   return (
     <LandingCenterContainer>
