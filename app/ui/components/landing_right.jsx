@@ -174,16 +174,31 @@ const LandingRight = () => {
 
   const handleCheckoutClick = async () => {
     const stripe = await stripePromise;
+    
+    // Prepare line_items array based on itemsInCart state
+    const lineItems = itemsInCart.map(item => ({
+      price_data: {
+        currency: 'usd',
+        product_data: {
+          name: item.name,
+        },
+        unit_amount: Math.round(item.price * 100), // Stripe expects amount in cents
+      },
+      quantity: item.quantity,
+    }));
+    
+    // Create a checkout session on the server
     const response = await fetch('/api/create-checkout-session', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
       },
-      body: JSON.stringify({ items: [{ price: 'price_12345', quantity: 1 }] }),
+      body: JSON.stringify({ lineItems }),
     });
   
     const session = await response.json();
   
+    // Redirect to Stripe checkout page
     const result = await stripe.redirectToCheckout({
       sessionId: session.id,
     });
@@ -192,6 +207,7 @@ const LandingRight = () => {
       console.error('Error redirecting to checkout:', result.error.message);
     }
   };
+  
   
 
   return (
