@@ -1,8 +1,11 @@
-import React, { useState } from "react";
-import styled from "styled-components";
-import Popup from "./Popup";
+import React, { useState } from 'react';
+import styled from 'styled-components';
+import axios from 'axios';
+import { loadStripe } from '@stripe/stripe-js';
+import Popup from './Popup';
+import Image from 'next/image';
 
-// Define ImageThumbnail styled component here
+// Define styled components here
 const ImageThumbnail = styled.img`
   max-width: 100%;
   height: 150%; /* Ensure image aspect ratio is maintained */
@@ -57,7 +60,7 @@ const CheckoutButton = styled.button`
   border: none;
   cursor: pointer;
   transition: opacity 0.3s ease;
-  opacity: ${(props) => (props.isClicked ? 0.3 : 1)};
+  opacity: ${(props) => (props.$isClicked ? 0.3 : 1)};
   
   &:hover {
     opacity: 0.7;
@@ -86,7 +89,7 @@ const SubContainer = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
-  background-color: ${(props) => props.bgColor};
+  background-color: ${(props) => props.$bgColor};
   transition: opacity 0.3s ease;
   
   &:hover {
@@ -103,12 +106,20 @@ const SmallBox = styled.div`
   box-sizing: border-box;
 `;
 
+const TotalPrice = styled.div`
+  color: white;
+  font-size: 1.2em;
+  text-align: right;
+  padding: 10px;
+`;
+
 const LandingRight = () => {
   const [isPopupVisible, setIsPopupVisible] = useState(false);
   const [popupContent, setPopupContent] = useState(null);
   const [isCheckoutClicked, setIsCheckoutClicked] = useState(false);
   const [selectedItemIndex, setSelectedItemIndex] = useState(null);
   const [itemsInCart, setItemsInCart] = useState([]);
+  const [totalPrice, setTotalPrice] = useState(0);
 
   const colors = [
     "#FF6347", // Tomato
@@ -120,6 +131,8 @@ const LandingRight = () => {
     "#32CD32", // LimeGreen
     "#FF4500"  // OrangeRed
   ];
+
+  const stripePromise = loadStripe('pk_test_51PVyU2LnEBkEceTDEPihBPxqv9vLVF3gb9FPZFePOKrnBMkIJxIwwJc4Rb4XAlft2uvQzlGe9HPBiIthNG1fzRcT00Os9yWNP9'); // Replace with your Stripe publishable key
 
   const handleSubContainerClick = (color, index) => {
     setPopupContent({
@@ -139,15 +152,47 @@ const LandingRight = () => {
     setIsCheckoutClicked(false);
   };
 
-  const handleAddToCart = () => {
+  const handleAddToCart = (selectedSize) => {
     if (popupContent) {
+      const itemPrice = {
+        S: 29.99,
+        M: 29.99,
+        L: 29.99,
+        XL: 29.99,
+        "2XL": 29.99,
+      }[selectedSize];
+
       setItemsInCart(prevItems => [
         ...prevItems,
-        { ...popupContent, index: prevItems.length }
+        { ...popupContent, index: prevItems.length, price: itemPrice, name: 'T-shirt', quantity: 1 }
       ]);
+
+      setTotalPrice(prevTotal => prevTotal + itemPrice);
     }
     setIsPopupVisible(false); // Close popup after adding to cart
   };
+
+  const handleCheckoutClick = async () => {
+    const stripe = await stripePromise;
+    const response = await fetch('/api/create-checkout-session', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({ items: [{ price: 'price_12345', quantity: 1 }] }),
+    });
+  
+    const session = await response.json();
+  
+    const result = await stripe.redirectToCheckout({
+      sessionId: session.id,
+    });
+  
+    if (result.error) {
+      console.error('Error redirecting to checkout:', result.error.message);
+    }
+  };
+  
 
   return (
     <LandingRightContainer>
@@ -162,17 +207,20 @@ const LandingRight = () => {
           ))}
         </ItemsContainer>
         <CheckoutButton
-          isClicked={isCheckoutClicked}
+          $isClicked={isCheckoutClicked}
           onMouseDown={handleCheckoutMouseDown}
           onMouseUp={handleCheckoutMouseUp}
+          onClick={handleCheckoutClick}
         >
+          Checkout
         </CheckoutButton>
+        <TotalPrice>{`Total Price: $${totalPrice.toFixed(2)}`}</TotalPrice>
       </UpperContainer>
       <LowerContainer>
         {colors.map((color, index) => (
           <SubContainer
             key={index}
-            bgColor={color}
+            $bgColor={color}
             onClick={() => handleSubContainerClick(color, index)}
           >
             <h1></h1>

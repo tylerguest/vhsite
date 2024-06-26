@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import styled from "styled-components";
 
 const Overlay = styled.div`
@@ -58,10 +58,11 @@ const Container1 = styled.div`
 `;
 
 const Container2 = styled.div`
-  background-color: lightgreen;
+  background-color: white;
   height: 101px;
   padding: 10px;
   display: flex;
+  flex-direction: row;
   justify-content: center;
   align-items: center;
 `;
@@ -73,7 +74,7 @@ const ImageThumbnail = styled.img`
 `;
 
 const AddToCartButton = styled.button`
-  background-color: #4CAF50; /* Green */
+  background-color: black; /* Green */
   border: none;
   color: white;
   padding: 10px 20px;
@@ -86,20 +87,68 @@ const AddToCartButton = styled.button`
   border-radius: 4px;
 `;
 
-const Popup = ({ content, onClose, onAddToCart }) => (
-  <Overlay onClick={onClose}>
-    <PopupContent onClick={(e) => e.stopPropagation()}>
-      <CloseButton onClick={onClose}>&times;</CloseButton>
-      <Container1>
-        {content && (
-          <ImageThumbnail src={content.imageSrc} alt="Thumbnail" />
-        )}
-      </Container1>
-      <Container2>
-        <AddToCartButton onClick={onAddToCart}>Add to Cart</AddToCartButton>
-      </Container2>
-    </PopupContent>
-  </Overlay>
-);
+const SizeSelector = styled.select`
+  padding: 10px;
+  margin: 10px;
+  font-size: 16px;
+  background-color: black;
+  border-radius: 4px;
+  border: 1px solid #ccc;
+`;
+
+const PriceDisplay = styled.div`
+  margin: 10px;
+  font-size: 18px;
+  color: black;
+`;
+
+const Popup = ({ content, onClose, onAddToCart }) => {
+  const [selectedSize, setSelectedSize] = useState("M");
+  const [price, setPrice] = useState(0);
+
+  const prices = {
+    S: 29.99,
+    M: 29.99,
+    L: 29.99,
+    XL: 29.99,
+    "2XL": 29.99,
+  };
+
+  useEffect(() => {
+    setPrice(prices[selectedSize]);
+  }, [selectedSize]);
+
+  const handleSizeChange = (event) => {
+    setSelectedSize(event.target.value);
+  };
+
+  const handleAddToCart = () => {
+    onAddToCart(selectedSize);
+  };
+
+  return (
+    <Overlay onClick={onClose}>
+      <PopupContent onClick={(e) => e.stopPropagation()}>
+        <CloseButton onClick={onClose}>&times;</CloseButton>
+        <Container1>
+          {content && (
+            <ImageThumbnail src={content.imageSrc} alt="Thumbnail" />
+          )}
+        </Container1>
+        <Container2>
+          <SizeSelector value={selectedSize} onChange={handleSizeChange}>
+            <option value="S">Small</option>
+            <option value="M">Medium</option>
+            <option value="L">Large</option>
+            <option value="XL">X-Large</option>
+            <option value="2XL">2X-Large</option>
+          </SizeSelector>
+          <AddToCartButton onClick={handleAddToCart}>Add to Cart</AddToCartButton>
+          <PriceDisplay>{`Price: $${price.toFixed(2)}`}</PriceDisplay>
+        </Container2>
+      </PopupContent>
+    </Overlay>
+  );
+};
 
 export default Popup;
