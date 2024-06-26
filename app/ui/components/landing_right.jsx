@@ -2,6 +2,13 @@ import React, { useState } from "react";
 import styled from "styled-components";
 import Popup from "./Popup";
 
+// Define ImageThumbnail styled component here
+const ImageThumbnail = styled.img`
+  max-width: 100%;
+  height: 150%; /* Ensure image aspect ratio is maintained */
+  max-height: 100%; /* Ensure image doesn't overflow container */
+`;
+
 const LandingRightContainer = styled.div`
   background-color: black;
   border-opacity: 0.5;
@@ -100,6 +107,8 @@ const LandingRight = () => {
   const [isPopupVisible, setIsPopupVisible] = useState(false);
   const [popupContent, setPopupContent] = useState(null);
   const [isCheckoutClicked, setIsCheckoutClicked] = useState(false);
+  const [selectedItemIndex, setSelectedItemIndex] = useState(null);
+  const [itemsInCart, setItemsInCart] = useState([]);
 
   const colors = [
     "#FF6347", // Tomato
@@ -112,14 +121,14 @@ const LandingRight = () => {
     "#FF4500"  // OrangeRed
   ];
 
-  const handleSubContainerClick = (color) => {
-    setPopupContent(
-      <div>
-        <h2 style={{ color }}></h2>
-        <img src={`/merchmain.png`} alt="Thumbnail" />
-      </div>
-    );
+  const handleSubContainerClick = (color, index) => {
+    setPopupContent({
+      imageSrc: `/merchmain.png`, // Replace with actual image source
+      color,
+      index
+    });
     setIsPopupVisible(true);
+    setSelectedItemIndex(index);
   };
 
   const handleCheckoutMouseDown = () => {
@@ -130,12 +139,26 @@ const LandingRight = () => {
     setIsCheckoutClicked(false);
   };
 
+  const handleAddToCart = () => {
+    if (popupContent) {
+      setItemsInCart(prevItems => [
+        ...prevItems,
+        { ...popupContent, index: prevItems.length }
+      ]);
+    }
+    setIsPopupVisible(false); // Close popup after adding to cart
+  };
+
   return (
     <LandingRightContainer>
       <UpperContainer>
         <ItemsContainer>
           {Array.from({ length: 12 }, (_, index) => (
-            <SmallBox key={index} />
+            <SmallBox key={index}>
+              {itemsInCart[index] && (
+                <ImageThumbnail src={itemsInCart[index].imageSrc} alt="Thumbnail" />
+              )}
+            </SmallBox>
           ))}
         </ItemsContainer>
         <CheckoutButton
@@ -146,17 +169,23 @@ const LandingRight = () => {
         </CheckoutButton>
       </UpperContainer>
       <LowerContainer>
-        {Array.from({ length: colors.length }, (_, index) => (
+        {colors.map((color, index) => (
           <SubContainer
             key={index}
-            bgColor={colors[index]}
-            onClick={() => handleSubContainerClick(colors[index])}
+            bgColor={color}
+            onClick={() => handleSubContainerClick(color, index)}
           >
             <h1></h1>
           </SubContainer>
         ))}
       </LowerContainer>
-      {isPopupVisible && <Popup content={popupContent} onClose={() => setIsPopupVisible(false)} />}
+      {isPopupVisible && (
+        <Popup
+          content={popupContent}
+          onClose={() => setIsPopupVisible(false)}
+          onAddToCart={handleAddToCart}
+        />
+      )}
     </LandingRightContainer>
   );
 };

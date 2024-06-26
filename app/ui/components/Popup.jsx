@@ -16,7 +16,6 @@ const Overlay = styled.div`
 
 const PopupContent = styled.div`
   background: black;
-  border: 5px solid #595959;
   padding: 20px;
   border-radius: 8px;
   width: 80%;  /* Adjust as needed */
@@ -62,6 +61,9 @@ const Container2 = styled.div`
   background-color: lightgreen;
   height: 101px;
   padding: 10px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 `;
 
 const ImageThumbnail = styled.img`
@@ -70,17 +72,31 @@ const ImageThumbnail = styled.img`
   max-height: 100%; /* Ensure image doesn't overflow container */
 `;
 
-const Popup = ({ content, onClose }) => (
+const AddToCartButton = styled.button`
+  background-color: #4CAF50; /* Green */
+  border: none;
+  color: white;
+  padding: 10px 20px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 16px;
+  margin: 4px 2px;
+  cursor: pointer;
+  border-radius: 4px;
+`;
+
+const Popup = ({ content, onClose, onAddToCart }) => (
   <Overlay onClick={onClose}>
     <PopupContent onClick={(e) => e.stopPropagation()}>
       <CloseButton onClick={onClose}>&times;</CloseButton>
       <Container1>
         {content && (
-          <ImageThumbnail src={`/merchmain.png`} alt="Thumbnail" />
+          <ImageThumbnail src={content.imageSrc} alt="Thumbnail" />
         )}
       </Container1>
       <Container2>
-        {/* Content for Container 2 */}
+        <AddToCartButton onClick={onAddToCart}>Add to Cart</AddToCartButton>
       </Container2>
     </PopupContent>
   </Overlay>
