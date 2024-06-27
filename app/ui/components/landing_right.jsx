@@ -109,8 +109,11 @@ const SmallBox = styled.div`
 const TotalPrice = styled.div`
   color: white;
   font-size: 1.2em;
-  text-align: right;
-  padding: 10px;
+  text-align: center;
+  padding: -10px;
+  font-family: 'Arial', sans-serif; /* Custom font family */
+  font-weight: bold; /* Custom font weight */
+  font-style: ; /* Custom font style */
 `;
 
 const LandingRight = () => {
@@ -152,28 +155,32 @@ const LandingRight = () => {
     setIsCheckoutClicked(false);
   };
 
-  const handleAddToCart = (selectedSize) => {
+  const handleAddToCart = (selectedSize, quantity) => {
     if (popupContent) {
+      // Define item prices based on size
       const itemPrice = {
         S: 29.99,
-        M: 29.99,
-        L: 29.99,
-        XL: 29.99,
-        "2XL": 29.99,
+        M: 34.99, // Updated price for M
+        L: 39.99, // Updated price for L
+        XL: 44.99, // Updated price for XL
+        "2XL": 49.99, // Updated price for 2XL
       }[selectedSize];
-
+  
+      // Add item to cart with updated properties including the specified quantity
       setItemsInCart(prevItems => [
         ...prevItems,
-        { ...popupContent, index: prevItems.length, price: itemPrice, name: 'T-shirt', quantity: 1 }
+        { ...popupContent, index: prevItems.length, price: itemPrice, size: selectedSize, name: 'T-shirt', quantity: quantity } // Use the quantity parameter
       ]);
-
-      setTotalPrice(prevTotal => prevTotal + itemPrice);
+  
+      // Update total price, taking into account the quantity
+      setTotalPrice(prevTotal => prevTotal + (itemPrice * quantity) - (5 * quantity)); // Subtract $5 for each item
     }
-    setIsPopupVisible(false); // Close popup after adding to cart
+    // Close popup after adding to cart
+    setIsPopupVisible(false);
   };
 
   const handleCheckoutClick = async () => {
-    const stripe = await stripePromise;
+    const stripe = await stripePromise; // Ensure stripePromise is correctly initialized
     
     // Prepare line_items array based on itemsInCart state
     const lineItems = itemsInCart.map(item => ({
@@ -186,23 +193,39 @@ const LandingRight = () => {
       },
       quantity: item.quantity,
     }));
-    
+  
+    // Assuming shippingInfo is available in the scope. If not, you'll need to define it.
+    const shippingInfo = {
+      country: 'US', // Example, this should be dynamically set based on user input
+      // Add other shipping info fields as necessary
+    };
+
     // Create a checkout session on the server
     const response = await fetch('/api/create-checkout-session', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
       },
-      body: JSON.stringify({ lineItems }),
+      body: JSON.stringify({ lineItems, shippingInfo }), // Include shippingInfo in the request body
     });
-  
+
     const session = await response.json();
-  
-    // Redirect to Stripe checkout page
+
+    // Check if session ID is present
+    if (!session.id) {
+      console.error('Session ID not found. Unable to redirect to checkout.');
+      // It's a good practice to also check for and display any error messages from the server
+      if (session.error) {
+        console.error('Error from server:', session.error);
+      }
+      return;
+    }
+
+    // Redirect to Stripe checkout page using the session ID
     const result = await stripe.redirectToCheckout({
       sessionId: session.id,
     });
-  
+
     if (result.error) {
       console.error('Error redirecting to checkout:', result.error.message);
     }
@@ -222,15 +245,14 @@ const LandingRight = () => {
             </SmallBox>
           ))}
         </ItemsContainer>
+        <TotalPrice>{`Total Price: $${totalPrice.toFixed(2)}`}</TotalPrice>   
         <CheckoutButton
           $isClicked={isCheckoutClicked}
           onMouseDown={handleCheckoutMouseDown}
           onMouseUp={handleCheckoutMouseUp}
           onClick={handleCheckoutClick}
         >
-          Checkout
         </CheckoutButton>
-        <TotalPrice>{`Total Price: $${totalPrice.toFixed(2)}`}</TotalPrice>
       </UpperContainer>
       <LowerContainer>
         {colors.map((color, index) => (

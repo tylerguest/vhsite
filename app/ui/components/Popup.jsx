@@ -81,6 +81,7 @@ const AddToCartButton = styled.button`
   text-align: center;
   text-decoration: none;
   display: inline-block;
+  font-weight: bold; /* Custom font weight */
   font-size: 16px;
   margin: 4px 2px;
   cursor: pointer;
@@ -91,6 +92,8 @@ const SizeSelector = styled.select`
   padding: 10px;
   margin: 10px;
   font-size: 16px;
+  font-weight: bold; /* Custom font weight */
+  text-align: center;
   background-color: black;
   border-radius: 4px;
   border: 1px solid #ccc;
@@ -99,12 +102,52 @@ const SizeSelector = styled.select`
 const PriceDisplay = styled.div`
   margin: 10px;
   font-size: 18px;
+  font-weight: bold; /* Custom font weight */
   color: black;
+`;
+
+const CustomTextBox = styled.input`
+  padding: 10px;
+  margin: 10px;
+  font-size: 16px; // Customize as needed
+  color: black; // Customize as needed
+  border: 1px solid #ccc; // Customize as needed
+  border-radius: 4px; // Customize as needed
+  background-color: white; // Customize as needed
+`;
+
+const quantityTickerStyles = {
+  backgroundColor: 'blue', // Example style, replace with your desired styles
+  // Add more styles here
+};
+
+const QuantityControl = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 10px;
+`;
+
+const QuantityButton = styled.button`
+  font-size: 20px;
+  padding: 5px 10px;
+  margin: 0 5px;
+  background-color: black; // Customize as needed
+  border: none; // Customize as needed
+  cursor: pointer; // Customize as needed
+`;
+
+const QuantityDisplay = styled.span`
+  font-size: 20px;
+  color: black; // Customize as needed
+  min-width: 30px;
+  text-align: center;
 `;
 
 const Popup = ({ content, onClose, onAddToCart }) => {
   const [selectedSize, setSelectedSize] = useState("M");
   const [price, setPrice] = useState(0);
+  const [quantity, setQuantity] = useState(1); // Default quantity is 1
 
   const prices = {
     S: 29.99,
@@ -114,17 +157,30 @@ const Popup = ({ content, onClose, onAddToCart }) => {
     "2XL": 29.99,
   };
 
+  // Use useEffect to update price when selectedSize or quantity changes
   useEffect(() => {
-    setPrice(prices[selectedSize]);
-  }, [selectedSize]);
+    // Price calculation now accounts for both selectedSize and quantity changes
+    setPrice(prices[selectedSize] * quantity);
+  }, [selectedSize, quantity]); // Added quantity to dependency array
+
 
   const handleSizeChange = (event) => {
     setSelectedSize(event.target.value);
   };
 
   const handleAddToCart = () => {
-    onAddToCart(selectedSize);
+    const itemDetails = {
+      size: selectedSize,
+      quantity: quantity,
+      price: prices[selectedSize],
+    };
+    onAddToCart(itemDetails); // Invoke the callback with item details
   };
+
+  // Step 3: Update quantity state
+  const increaseQuantity = () => setQuantity(prevQuantity => prevQuantity + 1);
+  const decreaseQuantity = () => setQuantity(prevQuantity => Math.max(1, prevQuantity - 1));
+
 
   return (
     <Overlay onClick={onClose}>
@@ -140,11 +196,16 @@ const Popup = ({ content, onClose, onAddToCart }) => {
             <option value="S">Small</option>
             <option value="M">Medium</option>
             <option value="L">Large</option>
-            <option value="XL">X-Large</option>
-            <option value="2XL">2X-Large</option>
+            <option value="XL">XL</option>
+            <option value="2XL">2XL</option>
           </SizeSelector>
+          <QuantityControl>
+            <QuantityButton onClick={decreaseQuantity}>-</QuantityButton>
+            <QuantityDisplay>{quantity}</QuantityDisplay>
+            <QuantityButton onClick={increaseQuantity}>+</QuantityButton>
+          </QuantityControl>
           <AddToCartButton onClick={handleAddToCart}>Add to Cart</AddToCartButton>
-          <PriceDisplay>{`Price: $${price.toFixed(2)}`}</PriceDisplay>
+          <PriceDisplay>{`Price: $${(prices[selectedSize] * quantity).toFixed(2)}`}</PriceDisplay>
         </Container2>
       </PopupContent>
     </Overlay>
